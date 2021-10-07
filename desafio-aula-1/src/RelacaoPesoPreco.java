@@ -3,6 +3,10 @@ public class RelacaoPesoPreco {
     public static double retornaPrecoProduto(String item, int qtd) {
         double precoTotal = 0;
 
+
+        /*
+        Pães são vendidos por unidade e tortas são vendidas por fatias, ou seja inteiros.
+         */
         if ("pao".equals(item)) {
             precoTotal = 12.75 * (Double.valueOf(qtd) * 60 / 1000);
         }
