@@ -3,9 +3,14 @@ package Filmes;
 public class Aplicacao {
 
     public static void main(String[] args) {
-        Diretor diretor = new Diretor("David Fincher", 59, 49, Genero.MASCULINO);
+        Diretor dFincher = new Diretor("David Fincher", 51, Genero.MASCULINO,49);
+        Ator jli = new  Ator("Jet Li", 58,Genero.MASCULINO, 3);
 
-        diretor.diretorNomeIdadeGenero();
+        jli.informacoes();
+        dFincher.informacoes();
+
+
+
 //      Filme fightClub = new Filme("Fight Club", "Muito interessante", 90, 1999,
 //              4,diretor);
 //

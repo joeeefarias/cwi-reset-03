@@ -1,21 +1,17 @@
 package Filmes;
 
-public class Ator {
-    String nome;
-    Integer idade;
-    Integer oscarsVencidos;
-    Genero genero;
+public class Ator extends Pessoa{
 
-    public Ator(String nome, Integer idade, Integer oscarsVencidos, Genero genero) {
-        this.nome = nome;
-        this.idade = idade;
-        this.oscarsVencidos = oscarsVencidos;
-        this.genero = genero;
+    Integer qtdOscar;
+
+
+    public Ator(String nome, Integer idade, Genero genero, Integer qdtOscar) {
+        super(nome, idade, genero);
+        this.qtdOscar = qdtOscar;
     }
 
-    public void atorNomeIdadeGenero(){
-        System.out.println("Nome; " + nome);
-        System.out.println("Idade: " + idade);
-        System.out.println("Gênero: " + genero.getDescricao());
+    public void informacoes(){
+        super.informacoes();
+        System.out.println("Quantidade de Oscars: " + qtdOscar);
     }
 }
