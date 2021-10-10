@@ -18,6 +18,14 @@ public class Filme {
         this.diretor = diretor;
     }
 
+    public Integer avaliar(Integer avaliacao) throws AvaliacaoForaDoPadraoException {
+        if (avaliacao <1 || avaliacao >5){
+            throw new AvaliacaoForaDoPadraoException();
+        }
+
+        return this.avaliacao;
+    }
+
     public void reproduzir() {
         System.out.println("Apresentando o filme");
         System.out.println("Nome: " + nome);

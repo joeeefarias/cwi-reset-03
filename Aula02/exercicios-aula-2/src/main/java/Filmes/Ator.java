@@ -1,12 +1,14 @@
 package Filmes;
 
+import java.time.LocalDate;
+
 public class Ator extends Pessoa{
 
     Integer qtdOscar;
 
 
-    public Ator(String nome, Integer idade, Genero genero, Integer qdtOscar) {
-        super(nome, idade, genero);
+    public Ator(String nome, LocalDate dataNascimento, Genero genero, Integer qdtOscar) {
+        super(nome, dataNascimento, genero);
         this.qtdOscar = qdtOscar;
     }
 
