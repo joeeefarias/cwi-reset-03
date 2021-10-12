@@ -1,4 +1,6 @@
-package Filmes;
+package br.com.cwi.reset.model;
+
+import br.com.cwi.reset.enumeration.Genero;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -15,16 +17,20 @@ public abstract class Pessoa {
         this.genero = genero;
     }
 
-    public void calcularIdade(){
-        Long idade = ChronoUnit.YEARS.between(dataNascimento, LocalDate.now());
-        System.out.println("A idade de " + nome + " é: " + idade);
+    private Long calcularIdade(){
+        return ChronoUnit.YEARS.between(dataNascimento, LocalDate.now());
+
     }
 
     public void informacoes(){
         System.out.println("");
         System.out.println("Nome: " + nome);
-        System.out.println("Data de nascimento: " + dataNascimento);
+        System.out.println("idade: " + this.calcularIdade());
         System.out.println("Gênero: " + genero);
 
+    }
+
+    public String getNome() {
+        return nome;
     }
 }

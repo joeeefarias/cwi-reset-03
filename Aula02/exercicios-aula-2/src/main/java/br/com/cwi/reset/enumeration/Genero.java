@@ -1,4 +1,4 @@
-package Filmes;
+package br.com.cwi.reset.enumeration;
 
 public enum Genero {
 

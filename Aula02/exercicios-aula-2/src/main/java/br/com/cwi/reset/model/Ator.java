@@ -1,4 +1,6 @@
-package Filmes;
+package br.com.cwi.reset.model;
+
+import br.com.cwi.reset.enumeration.Genero;
 
 import java.time.LocalDate;
 

@@ -1,4 +1,6 @@
-package Filmes;
+package br.com.cwi.reset.model;
+
+import br.com.cwi.reset.exceptions.AvaliacaoForaDoPadraoException;
 
 public class Filme {
 
@@ -9,7 +11,10 @@ public class Filme {
     private Integer avaliacao;
     private Diretor diretor;
 
-    public Filme(String nome, String descricao, Integer duracaoMinutos, Integer anoDeLacamento, Integer avaliacao, Diretor diretor) {
+    public Filme(String nome, String descricao, Integer duracaoMinutos, Integer anoDeLacamento, Integer avaliacao, Diretor diretor) throws AvaliacaoForaDoPadraoException {
+        if (avaliacao <1 || avaliacao >5){
+            throw new AvaliacaoForaDoPadraoException();
+        }
         this.nome = nome;
         this.descricao = descricao;
         this.duracaoMinutos = duracaoMinutos;
@@ -18,24 +23,26 @@ public class Filme {
         this.diretor = diretor;
     }
 
-    public Integer avaliar(Integer avaliacao) throws AvaliacaoForaDoPadraoException {
-        if (avaliacao <1 || avaliacao >5){
-            throw new AvaliacaoForaDoPadraoException();
-        }
 
-        return this.avaliacao;
-    }
+
+
 
     public void reproduzir() {
+
         System.out.println("Apresentando o filme");
         System.out.println("Nome: " + nome);
+        System.out.println("Descrição: " + descricao);
         System.out.println("Duração: " + duracaoMinutos);
         System.out.println("Ano de lançamento: " + anoDeLacamento);
         System.out.println("Avaliação: " + avaliacao);
-        System.out.println("Diretor: " + diretor);
+        System.out.println("Diretor: " + diretor.getNome());
         System.out.println("");
         System.out.println("----------------------------------");
+
     }
 
+    public Integer getAvaliacao() {
+        return avaliacao;
+    }
 }
 
