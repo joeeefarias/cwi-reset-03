@@ -26,10 +26,24 @@ public class Aplicacao {
         LocalDate anoInicioAtividade = LocalDate.of(1986, 10, 12);
         AtorRequest atorRequest = new AtorRequest(nome, dataNascimento, statusCarreira, anoInicioAtividade);
 
+        AtorRequest keanuReeves = new AtorRequest("Keanu Reeves", LocalDate.of(1964, 9, 02),
+                StatusCarreira.EM_ATIVIDADE, LocalDate.of(1986, 1, 01));
+
+        AtorRequest jonBernthal = new AtorRequest("Jon Bernthal", LocalDate.of(1976, 9, 20),
+                StatusCarreira.APOSENTADO, LocalDate.of(1986, 1, 01));
+
+
         atorService.criarAtor(atorRequest);
+        atorService.criarAtor(keanuReeves);
+        atorService.criarAtor(jonBernthal);
 
 
 
+        List<Ator> atoresEmAtividade = atorService.listarAtoresEmAtividade();
+        for (Ator ator: atoresEmAtividade) {
+            System.out.println(ator.getNome());
+
+        }
 
         List<Ator> atores = fakeDatabase.recuperaAtores();
 
