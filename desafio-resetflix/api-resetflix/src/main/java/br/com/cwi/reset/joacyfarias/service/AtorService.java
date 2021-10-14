@@ -52,16 +52,25 @@ public class AtorService {
 
     }
 
-    public List<Ator> listarAtoresEmAtividade() {
+    public List<Ator> listarAtoresEmAtividade() throws NegocioException {
         List<Ator> atoresEmAtividade = new ArrayList<>();
-        for (Ator ator: fakeDatabase.recuperaAtores()){
-            if (ator.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE)){
-                 atoresEmAtividade.add(ator);
-            }
+        for (Ator ator : fakeDatabase.recuperaAtores()) {
+            if (ator.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE)) {
+                atoresEmAtividade.add(ator);
 
+            }
+            if (atoresEmAtividade.isEmpty()) {
+                throw new NegocioException("Nenhum ator encontrado para o parâmetro: Em atividade");
+            }
         }
         return atoresEmAtividade;
     }
+
+//    {
+//
+//    }
+
+
 
     private Integer gerarId(){
         Integer id = 0;

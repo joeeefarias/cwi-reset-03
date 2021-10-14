@@ -27,10 +27,10 @@ public class Aplicacao {
         AtorRequest atorRequest = new AtorRequest(nome, dataNascimento, statusCarreira, anoInicioAtividade);
 
         AtorRequest keanuReeves = new AtorRequest("Keanu Reeves", LocalDate.of(1964, 9, 02),
-                StatusCarreira.EM_ATIVIDADE, LocalDate.of(1986, 1, 01));
+                StatusCarreira.APOSENTADO, LocalDate.of(1986, 1, 01));
 
         AtorRequest jonBernthal = new AtorRequest("Jon Bernthal", LocalDate.of(1976, 9, 20),
-                StatusCarreira.APOSENTADO, LocalDate.of(1986, 1, 01));
+                StatusCarreira.EM_ATIVIDADE, LocalDate.of(1986, 1, 01));
 
 
         atorService.criarAtor(atorRequest);
@@ -41,8 +41,8 @@ public class Aplicacao {
 
         List<Ator> atoresEmAtividade = atorService.listarAtoresEmAtividade();
         for (Ator ator: atoresEmAtividade) {
-            System.out.println(ator.getNome());
-
+            System.out.println("ID: " + ator.getId() + " - " + ator.getNome() + " nascido em :  "
+                    + ator.getDataNascimento());
         }
 
         List<Ator> atores = fakeDatabase.recuperaAtores();
