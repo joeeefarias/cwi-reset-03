@@ -2,7 +2,9 @@ package br.com.cwi.reset.joacyfarias.service;
 
 import br.com.cwi.reset.joacyfarias.domain.Ator;
 import br.com.cwi.reset.joacyfarias.enumeration.StatusCarreira;
+import br.com.cwi.reset.joacyfarias.exceptions.NascimentoInvalidoException;
 import br.com.cwi.reset.joacyfarias.exceptions.NegocioException;
+import br.com.cwi.reset.joacyfarias.exceptions.NomeInvalidoException;
 import br.com.cwi.reset.joacyfarias.repository.FakeDatabase;
 import br.com.cwi.reset.joacyfarias.service.dto.request.AtorRequest;
 
@@ -20,7 +22,7 @@ public class AtorService {
     }
 
 
-    public void criarAtor(AtorRequest atorRequest) throws NegocioException {
+    public void criarAtor(AtorRequest atorRequest) throws Exception {
         validaAtor(atorRequest);
         Ator ator = new Ator(gerarId(), atorRequest.getNome(), atorRequest.getDataNascimento(),
                 atorRequest.getStatusCarreira(), atorRequest.getAnoInicioAtividade());
@@ -29,12 +31,12 @@ public class AtorService {
 
 
 
-    private void validaAtor(AtorRequest atorRequest) throws NegocioException {
+    private void validaAtor(AtorRequest atorRequest) throws Exception {
         if (atorRequest.getNome() == null || atorRequest.getNome().isEmpty()){
-            throw new NegocioException("Deve ser informado no mínimo nome e sobrenome para o ator.");
+            throw new NomeInvalidoException();
         }
         if (atorRequest.getDataNascimento().isAfter(LocalDate.now())){
-            throw new NegocioException("Não é possível cadastrar atores não nascidos.");
+            throw new NascimentoInvalidoException();
         }
         if (atorRequest.getAnoInicioAtividade().isBefore(atorRequest.getDataNascimento())) {
             throw new NegocioException("Ano de início de atividade inválido para o ator cadastrado.");
@@ -65,10 +67,6 @@ public class AtorService {
         }
         return atoresEmAtividade;
     }
-
-//    {
-//
-//    }
 
 
 

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Aplicacao {
 
-    public static void main(String[] args) throws NegocioException {
+    public static void main(String[] args) throws Exception {
 
 
         FakeDatabase fakeDatabase = new FakeDatabase();
