@@ -2,7 +2,6 @@ package br.com.cwi.reset.joacyfarias;
 
 import br.com.cwi.reset.joacyfarias.domain.Ator;
 import br.com.cwi.reset.joacyfarias.enumeration.StatusCarreira;
-import br.com.cwi.reset.joacyfarias.exceptions.NegocioException;
 import br.com.cwi.reset.joacyfarias.repository.FakeDatabase;
 import br.com.cwi.reset.joacyfarias.service.AtorService;
 import br.com.cwi.reset.joacyfarias.service.dto.request.AtorRequest;
