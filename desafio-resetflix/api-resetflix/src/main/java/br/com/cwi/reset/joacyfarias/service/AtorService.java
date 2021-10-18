@@ -2,6 +2,7 @@ package br.com.cwi.reset.joacyfarias.service;
 
 import br.com.cwi.reset.joacyfarias.domain.Ator;
 import br.com.cwi.reset.joacyfarias.enumeration.StatusCarreira;
+import br.com.cwi.reset.joacyfarias.enumeration.TipoDominio;
 import br.com.cwi.reset.joacyfarias.exceptions.*;
 import br.com.cwi.reset.joacyfarias.repository.FakeDatabase;
 import br.com.cwi.reset.joacyfarias.service.dto.request.AtorRequest;
@@ -48,7 +49,7 @@ public class AtorService {
 
         for (Ator ator : fakeDatabase.recuperaAtores()){
             if (ator.getNome().equals(atorRequest.getNome())){
-                throw new NomeDuplicadoException(atorRequest.getNome());
+                throw new NomeDuplicadoException(TipoDominio.ATOR.getSingular(), atorRequest.getNome());
             }
 
         }

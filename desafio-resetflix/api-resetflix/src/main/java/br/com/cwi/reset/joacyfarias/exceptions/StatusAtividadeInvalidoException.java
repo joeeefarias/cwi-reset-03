@@ -5,8 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class InicioAtividadeEmBrancoException extends CampoInvalidoException{
-    public InicioAtividadeEmBrancoException(){
-        super("anoInicioAtividade");
+public class StatusAtividadeInvalidoException extends CampoInvalidoException{
+    public StatusAtividadeInvalidoException(){
+        super("statusAtividade");
     }
 }

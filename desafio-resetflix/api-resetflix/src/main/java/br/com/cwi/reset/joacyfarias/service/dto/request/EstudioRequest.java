@@ -1,10 +1,10 @@
-package br.com.cwi.reset.joacyfarias.domain;
+package br.com.cwi.reset.joacyfarias.service.dto.request;
 
 import br.com.cwi.reset.joacyfarias.enumeration.StatusAtividade;
 
 import java.time.LocalDate;
 
-public class Estudio {
+public class EstudioRequest {
 
     private Integer id;
     private String nome;
@@ -12,10 +12,11 @@ public class Estudio {
     private LocalDate dataCriacao;
     private StatusAtividade statusAtividade;
 
-    public Estudio(Integer id, String nome, String descricao, LocalDate dataCriacao, StatusAtividade statusAtividade) {
+    public EstudioRequest(Integer id, String nome, String descricao, LocalDate dataCriacao, StatusAtividade statusAtividade) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
+        this.dataCriacao = dataCriacao;
         this.statusAtividade = statusAtividade;
     }
 
@@ -39,3 +40,5 @@ public class Estudio {
         return statusAtividade;
     }
 }
+
+
