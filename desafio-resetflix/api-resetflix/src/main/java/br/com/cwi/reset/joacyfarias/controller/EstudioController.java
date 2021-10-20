@@ -32,9 +32,6 @@ public class EstudioController {
         return FakeDatabase.getInstance().recuperaEstudios();
     }
 
-    @DeleteMapping("/id")
-    public void deletarEstudio(@PathVariable Integer id){
 
-    }
 
 }

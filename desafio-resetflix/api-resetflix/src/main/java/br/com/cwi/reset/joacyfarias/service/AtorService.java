@@ -1,6 +1,7 @@
 package br.com.cwi.reset.joacyfarias.service;
 
 import br.com.cwi.reset.joacyfarias.domain.Ator;
+import br.com.cwi.reset.joacyfarias.domain.Diretor;
 import br.com.cwi.reset.joacyfarias.enumeration.StatusCarreira;
 import br.com.cwi.reset.joacyfarias.enumeration.TipoDominio;
 import br.com.cwi.reset.joacyfarias.exceptions.*;
@@ -34,6 +35,10 @@ public class AtorService {
         if (atorRequest.getNome() == null || atorRequest.getNome().isEmpty()){
             throw new NomeInvalidoException();
         }
+        if (atorRequest.getNome().split(" ").length < 2){
+            throw new NomeESobreNomeException(TipoDominio.ATOR.getSingular());
+        }
+
         if (atorRequest.getDataNascimento().isAfter(LocalDate.now())){
             throw new NascimentoInvalidoException(atorRequest.getDataNascimento());
         }
@@ -68,6 +73,27 @@ public class AtorService {
             }
         }
         return atoresEmAtividade;
+    }
+
+    public List<Ator> consultaAtores()throws Exception{
+        if (fakeDatabase.recuperaAtores().isEmpty()){
+            throw new ListaVaziaException(TipoDominio.ATOR.getSingular(), TipoDominio.ATOR.getPlural());
+        }
+        return fakeDatabase.recuperaAtores();
+    }
+
+    public Ator consultaAtor(final Integer id)throws Exception{
+        if(id == null ){
+            throw new IdInvalidoException();
+        }
+        final List<Ator> atores = fakeDatabase.recuperaAtores();
+
+        for (Ator ator : atores){
+            if(ator.getId().equals(id)){
+                return ator;
+            }
+        }
+        throw new IdInvalidoException();
     }
 
 
