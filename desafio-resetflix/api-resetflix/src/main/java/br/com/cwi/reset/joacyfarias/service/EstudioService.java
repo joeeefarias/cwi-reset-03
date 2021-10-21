@@ -20,7 +20,7 @@ public class EstudioService {
     }
 
     public void criarEstudio(EstudioRequest estudioRequest) throws Exception{
-
+        validaEstudio(estudioRequest);
 
         if(estudioRequest.getStatusAtividade() == null){
             throw new StatusAtividadeInvalidoException();
@@ -40,6 +40,26 @@ public class EstudioService {
 
         Estudio estudio = new Estudio(gerarId(), estudioRequest.getNome(), estudioRequest.getDescricao(), estudioRequest.getDataCriacao(), estudioRequest.getStatusAtividade());
         fakeDatabase.persisteEstudio(estudio);
+
+    }
+
+    private void validaEstudio(EstudioRequest estudioRequest) throws Exception {
+        if (estudioRequest.getNome() == null || estudioRequest.getNome().isEmpty()){
+            throw new NomeInvalidoException();
+        }
+        if (estudioRequest.getDataCriacao().isAfter(LocalDate.now())) {
+            throw new InicioAtividadeException(estudioRequest.getDataCriacao());
+        }
+        if (estudioRequest.getDataCriacao() == null) {
+            throw new InicioAtividadeEmBrancoException();
+        }
+
+        for (Estudio estudio : fakeDatabase.recuperaEstudios()){
+            if (estudio.getNome().equals(estudioRequest.getNome())){
+                throw new NomeDuplicadoException(TipoDominio.ESTUDIO.getSingular(), estudioRequest.getNome());
+            }
+
+        }
 
     }
 

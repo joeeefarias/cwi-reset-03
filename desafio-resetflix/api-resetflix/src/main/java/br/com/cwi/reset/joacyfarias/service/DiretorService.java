@@ -6,6 +6,7 @@ import br.com.cwi.reset.joacyfarias.exceptions.*;
 import br.com.cwi.reset.joacyfarias.repository.FakeDatabase;
 import br.com.cwi.reset.joacyfarias.service.dto.request.DiretorRequest;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -20,7 +21,7 @@ public class DiretorService {
     }
 
     public void cadastrarDiretor(final DiretorRequest diretorRequest) throws Exception {
-
+        validaDiretor(diretorRequest);
 
         final List<Diretor> diretoresCadastrados = fakeDatabase.recuperaDiretores();
 
@@ -35,6 +36,36 @@ public class DiretorService {
         final Diretor diretor = new Diretor(idGerado, diretorRequest.getNome(), diretorRequest.getDataNascimento(), diretorRequest.getAnoInicioAtividade());
 
         fakeDatabase.persisteDiretor(diretor);
+    }
+
+    private void validaDiretor(DiretorRequest diretorRequest) throws Exception {
+        if (diretorRequest.getNome() == null || diretorRequest.getNome().isEmpty()){
+            throw new NomeInvalidoException();
+        }
+        if (diretorRequest.getNome().split(" ").length < 2){
+            throw new NomeESobreNomeException(TipoDominio.ATOR.getSingular());
+        }
+
+        if (diretorRequest.getDataNascimento().isAfter(LocalDate.now())){
+            throw new NascimentoInvalidoException(diretorRequest.getDataNascimento());
+        }
+        if (diretorRequest.getDataNascimento() == null){
+            throw new NascimentoEmBrancoException();
+        }
+        if (diretorRequest.getAnoInicioAtividade().isBefore(diretorRequest.getDataNascimento())) {
+            throw new InicioAtividadeException(diretorRequest.getAnoInicioAtividade());
+        }
+        if (diretorRequest.getAnoInicioAtividade() == null) {
+            throw new InicioAtividadeEmBrancoException();
+        }
+
+        for (Diretor diretor : fakeDatabase.recuperaDiretores()){
+            if (diretor.getNome().equals(diretorRequest.getNome())){
+                throw new NomeDuplicadoException(TipoDominio.DIRETOR.getSingular(), diretorRequest.getNome());
+            }
+
+        }
+
     }
 
     public List<Diretor> listarDiretores(final String filtroNome) throws Exception {

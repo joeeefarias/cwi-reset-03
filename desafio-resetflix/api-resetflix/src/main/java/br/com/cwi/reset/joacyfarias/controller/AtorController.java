@@ -17,40 +17,33 @@ public class AtorController {
 
     private AtorService atorService;
 
-    public AtorController() throws Exception{
+    public AtorController() throws Exception {
         this.atorService = new AtorService(FakeDatabase.getInstance());
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void crirarAtor(@RequestBody AtorRequest atorRequest) throws Exception{
+    public void crirarAtor(@RequestBody AtorRequest atorRequest) throws Exception {
         this.atorService.criarAtor(atorRequest);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Ator> listaTodosOsAtores() throws Exception{
+    public List<Ator> listaTodosOsAtores() throws Exception {
         return atorService.consultaAtores();
     }
 
     @GetMapping("/{EM_ATIVIDADE}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Ator> listaAtoresEmatividade()throws Exception{
+    public List<Ator> listaAtoresEmatividade() throws Exception {
         return atorService.listarAtoresEmAtividade();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Ator consultaAtor(@PathVariable Integer id)throws Exception{
+    public Ator consultaAtor(@PathVariable Integer id) throws Exception {
         return atorService.consultaAtor(id);
     }
 
-
-
-
-
-
-
-//    @PutMapping
 
 }
