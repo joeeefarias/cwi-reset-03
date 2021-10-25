@@ -1,59 +1,46 @@
 package br.com.cwi.reset.joacyfarias.service;
 
 import br.com.cwi.reset.joacyfarias.domain.Ator;
-import br.com.cwi.reset.joacyfarias.domain.Diretor;
 import br.com.cwi.reset.joacyfarias.enumeration.StatusCarreira;
 import br.com.cwi.reset.joacyfarias.enumeration.TipoDominio;
 import br.com.cwi.reset.joacyfarias.exceptions.*;
-import br.com.cwi.reset.joacyfarias.repository.FakeDatabase;
-import br.com.cwi.reset.joacyfarias.service.dto.request.AtorRequest;
+import br.com.cwi.reset.joacyfarias.repository.AtorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Service
 public class AtorService {
 
-    private FakeDatabase fakeDatabase;
+    @Autowired
+    private AtorRepository repository;
 
-    public AtorService(FakeDatabase fakeDatabase) {
-        this.fakeDatabase = fakeDatabase;
+
+    public void criarAtor(Ator ator) throws Exception {
+        validaAtor(ator);
+        repository.save(ator);
     }
 
 
-    public void criarAtor(AtorRequest atorRequest) throws Exception {
-        validaAtor(atorRequest);
-        Ator ator = new Ator(gerarId(), atorRequest.getNome(), atorRequest.getDataNascimento(),
-                atorRequest.getStatusCarreira(), atorRequest.getAnoInicioAtividade());
-        fakeDatabase.persisteAtor(ator);
-    }
+    private void validaAtor(Ator atorRequest) throws Exception {
 
-
-
-    private void validaAtor(AtorRequest atorRequest) throws Exception {
-        if (atorRequest.getNome() == null || atorRequest.getNome().isEmpty()){
-            throw new NomeInvalidoException();
-        }
-        if (atorRequest.getNome().split(" ").length < 2){
+        if (atorRequest.getNome().split(" ").length < 2) {
             throw new NomeESobreNomeException(TipoDominio.ATOR.getSingular());
         }
 
-        if (atorRequest.getDataNascimento().isAfter(LocalDate.now())){
+        if (atorRequest.getDataNascimento().isAfter(LocalDate.now())) {
             throw new NascimentoInvalidoException(atorRequest.getDataNascimento());
         }
-        if (atorRequest.getDataNascimento() == null){
-            throw new NascimentoEmBrancoException();
-        }
+
         if (atorRequest.getAnoInicioAtividade().isBefore(atorRequest.getDataNascimento())) {
             throw new InicioAtividadeException(atorRequest.getAnoInicioAtividade());
         }
-        if (atorRequest.getAnoInicioAtividade() == null) {
-            throw new InicioAtividadeEmBrancoException();
-        }
 
-        for (Ator ator : fakeDatabase.recuperaAtores()){
-            if (ator.getNome().equals(atorRequest.getNome())){
+        for (Ator ator : repository.findAll()) {
+            if (ator.getNome().equals(atorRequest.getNome())) {
                 throw new NomeDuplicadoException(TipoDominio.ATOR.getSingular(), atorRequest.getNome());
             }
 
@@ -63,7 +50,7 @@ public class AtorService {
 
     public List<Ator> listarAtoresEmAtividade() throws Exception {
         List<Ator> atoresEmAtividade = new ArrayList<>();
-        for (Ator ator : fakeDatabase.recuperaAtores()) {
+        for (Ator ator : repository.findAll()) {
             if (ator.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE)) {
                 atoresEmAtividade.add(ator);
 
@@ -75,37 +62,26 @@ public class AtorService {
         return atoresEmAtividade;
     }
 
-    public List<Ator> consultaAtores()throws Exception{
-        if (fakeDatabase.recuperaAtores().isEmpty()){
+    public List<Ator> consultaAtores() throws Exception {
+        if (repository.findAll().isEmpty()) {
             throw new ListaVaziaException(TipoDominio.ATOR.getSingular(), TipoDominio.ATOR.getPlural());
         }
-        return fakeDatabase.recuperaAtores();
+        return repository.findAll();
     }
 
-    public Ator consultaAtor(final Integer id)throws Exception{
-        if(id == null ){
+    public Ator consultaAtor(final Integer id) throws Exception {
+        if (id == null) {
             throw new IdInvalidoException();
         }
-        final List<Ator> atores = fakeDatabase.recuperaAtores();
+        final List<Ator> atores = repository.findAll();
 
-        for (Ator ator : atores){
-            if(ator.getId().equals(id)){
+        for (Ator ator : atores) {
+            if (ator.getId().equals(id)) {
                 return ator;
             }
         }
         throw new IdInvalidoException();
     }
 
-
-
-    private Integer gerarId(){
-        Integer id = 0;
-        for (Ator ator: fakeDatabase.recuperaAtores()){
-            if (ator.getId() > id){
-                id = ator.getId();
-            }
-        }
-        return id + 1;
-    }
 
 }

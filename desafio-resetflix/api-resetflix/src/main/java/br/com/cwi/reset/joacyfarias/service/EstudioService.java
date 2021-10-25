@@ -38,7 +38,7 @@ public class EstudioService {
             throw new InicioAtividadeException(estudioRequest.getDataCriacao());
         }
 
-        Estudio estudio = new Estudio(gerarId(), estudioRequest.getNome(), estudioRequest.getDescricao(), estudioRequest.getDataCriacao(), estudioRequest.getStatusAtividade());
+        Estudio estudio = new Estudio(estudioRequest.getNome(), estudioRequest.getDescricao(), estudioRequest.getDataCriacao(), estudioRequest.getStatusAtividade());
         fakeDatabase.persisteEstudio(estudio);
 
     }

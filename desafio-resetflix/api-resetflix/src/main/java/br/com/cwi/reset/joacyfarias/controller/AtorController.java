@@ -1,9 +1,8 @@
 package br.com.cwi.reset.joacyfarias.controller;
 
 import br.com.cwi.reset.joacyfarias.domain.Ator;
-import br.com.cwi.reset.joacyfarias.repository.FakeDatabase;
 import br.com.cwi.reset.joacyfarias.service.AtorService;
-import br.com.cwi.reset.joacyfarias.service.dto.request.AtorRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,34 +14,33 @@ import java.util.List;
 
 public class AtorController {
 
+    @Autowired
     private AtorService atorService;
 
-    public AtorController() throws Exception {
-        this.atorService = new AtorService(FakeDatabase.getInstance());
-    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void crirarAtor(@RequestBody AtorRequest atorRequest) throws Exception {
-        this.atorService.criarAtor(atorRequest);
+    public Ator crirarAtor(@RequestBody Ator ator) throws Exception {
+        atorService.criarAtor(ator);
+        return ator;
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Ator> listaTodosOsAtores() throws Exception {
-        return atorService.consultaAtores();
+        return this.atorService.consultaAtores();
     }
 
-    @GetMapping("/{EM_ATIVIDADE}")
+    @GetMapping("/{em_atividade}")
     @ResponseStatus(HttpStatus.OK)
     public List<Ator> listaAtoresEmatividade() throws Exception {
-        return atorService.listarAtoresEmAtividade();
+        return this.atorService.listarAtoresEmAtividade();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Ator consultaAtor(@PathVariable Integer id) throws Exception {
-        return atorService.consultaAtor(id);
+        return this.atorService.consultaAtor(id);
     }
 
 

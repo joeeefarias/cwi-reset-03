@@ -33,7 +33,7 @@ public class DiretorService {
 
         final Integer idGerado = diretoresCadastrados.size() + 1;
 
-        final Diretor diretor = new Diretor(idGerado, diretorRequest.getNome(), diretorRequest.getDataNascimento(), diretorRequest.getAnoInicioAtividade());
+        final Diretor diretor = new Diretor(diretorRequest.getNome(), diretorRequest.getDataNascimento(), diretorRequest.getAnoInicioAtividade());
 
         fakeDatabase.persisteDiretor(diretor);
     }
