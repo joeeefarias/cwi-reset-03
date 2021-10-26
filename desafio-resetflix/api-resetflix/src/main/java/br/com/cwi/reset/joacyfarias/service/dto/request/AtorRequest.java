@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 public class AtorRequest {
 
+    private Integer id;
     @NotNull(message = "Campo obrigatório não informado. Favor informar o campo nome")
     private String nome;
     @NotNull(message = "Campo obrigatório não informado. Favor informar o campo data de nascimento")
@@ -17,8 +18,9 @@ public class AtorRequest {
     @NotNull(message = "Campo obrigatório não informado. Favor informar o campo ano de inicio de atividade")
     private LocalDate anoInicioAtividade;
 
-    public AtorRequest(String nome, LocalDate dataNascimento, StatusCarreira statusCarreira,
+    public AtorRequest(Integer id, String nome, LocalDate dataNascimento, StatusCarreira statusCarreira,
                        LocalDate anoInicioAtividade) {
+        this.id = id;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.statusCarreira = statusCarreira;
@@ -39,5 +41,9 @@ public class AtorRequest {
 
     public LocalDate getAnoInicioAtividade() {
         return anoInicioAtividade;
+    }
+
+    public Integer getId() {
+        return id;
     }
 }

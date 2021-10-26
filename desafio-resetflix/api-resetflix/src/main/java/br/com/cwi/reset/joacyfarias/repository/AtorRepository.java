@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface AtorRepository extends CrudRepository<Ator, Integer> {
 
-    Ator finBynome(String nome);
+//    Ator finById(Integer id);
     List<Ator> findAll();
     List<Ator> findByStatusCarreira(String statusCarreira);
 

@@ -11,7 +11,7 @@ public class PersonagemAtor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "id_ator")
     private Ator ator;
     private String nomePersonagem;

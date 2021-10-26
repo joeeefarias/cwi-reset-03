@@ -5,10 +5,10 @@ import br.com.cwi.reset.joacyfarias.enumeration.StatusCarreira;
 import br.com.cwi.reset.joacyfarias.enumeration.TipoDominio;
 import br.com.cwi.reset.joacyfarias.exceptions.*;
 import br.com.cwi.reset.joacyfarias.repository.AtorRepository;
+import br.com.cwi.reset.joacyfarias.service.dto.request.AtorRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,20 +19,22 @@ public class AtorService {
     private AtorRepository repository;
 
 
-    public void criarAtor(Ator ator) throws Exception {
-        validaAtor(ator);
-        repository.save(ator);
+    public Ator criarAtor(AtorRequest atorRequest) throws Exception {
+        validaAtor(atorRequest);
+        Ator ator = new Ator();
+        ator.setNome(atorRequest.getNome());
+        ator.setDataNascimento(atorRequest.getDataNascimento());
+        ator.setStatusCarreira(atorRequest.getStatusCarreira());
+        ator.setAnoInicioAtividade(atorRequest.getAnoInicioAtividade());
+        return repository.save(ator);
+
     }
 
 
-    private void validaAtor(Ator atorRequest) throws Exception {
+    private void validaAtor(AtorRequest atorRequest) throws Exception {
 
         if (atorRequest.getNome().split(" ").length < 2) {
             throw new NomeESobreNomeException(TipoDominio.ATOR.getSingular());
-        }
-
-        if (atorRequest.getDataNascimento().isAfter(LocalDate.now())) {
-            throw new NascimentoInvalidoException(atorRequest.getDataNascimento());
         }
 
         if (atorRequest.getAnoInicioAtividade().isBefore(atorRequest.getDataNascimento())) {

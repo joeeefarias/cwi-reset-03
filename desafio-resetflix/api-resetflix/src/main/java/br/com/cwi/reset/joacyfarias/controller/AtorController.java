@@ -2,10 +2,12 @@ package br.com.cwi.reset.joacyfarias.controller;
 
 import br.com.cwi.reset.joacyfarias.domain.Ator;
 import br.com.cwi.reset.joacyfarias.service.AtorService;
+import br.com.cwi.reset.joacyfarias.service.dto.request.AtorRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -20,9 +22,8 @@ public class AtorController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Ator crirarAtor(@RequestBody Ator ator) throws Exception {
-        atorService.criarAtor(ator);
-        return ator;
+    public void crirarAtor(@RequestBody @Valid AtorRequest atorRequest) throws Exception {
+        this.atorService.criarAtor(atorRequest);
     }
 
     @GetMapping
