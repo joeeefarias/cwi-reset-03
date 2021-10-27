@@ -97,7 +97,7 @@ public class DiretorService {
 
     public Diretor consultarDiretor(final Integer id) throws Exception {
         if (id == null) {
-            throw new IdInvalidoException();
+            throw new RegistroNaoEncontradoException(TipoDominio.DIRETOR.getSingular(), id);
         }
 
         final List<Diretor> diretores = fakeDatabase.recuperaDiretores();
@@ -108,6 +108,6 @@ public class DiretorService {
             }
         }
 
-        throw new IdInvalidoException();
+        throw new RegistroNaoEncontradoException(TipoDominio.DIRETOR.getSingular(), id);
     }
 }

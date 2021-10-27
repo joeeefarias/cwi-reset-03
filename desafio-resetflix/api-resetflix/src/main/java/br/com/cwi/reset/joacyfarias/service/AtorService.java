@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AtorService {
@@ -64,26 +65,47 @@ public class AtorService {
         return atoresEmAtividade;
     }
 
-    public List<Ator> consultaAtores() throws Exception {
+    public List<Ator> consultarAtores() throws Exception {
         if (repository.findAll().isEmpty()) {
             throw new ListaVaziaException(TipoDominio.ATOR.getSingular(), TipoDominio.ATOR.getPlural());
         }
         return repository.findAll();
     }
 
-    public Ator consultaAtor(final Integer id) throws Exception {
-        if (id == null) {
-            throw new IdInvalidoException();
-        }
-        final List<Ator> atores = repository.findAll();
+    public Ator consultarAtor(Integer id) throws Exception {
+        // Caso o optional tenha valor o mesmo é retornado, caso contrário é lançado a exceção
 
-        for (Ator ator : atores) {
-            if (ator.getId().equals(id)) {
-                return ator;
-            }
+        Optional<Ator> ator = repository.findById(id);
+        if (!ator.isPresent()) {
+            throw new RegistroNaoEncontradoException(TipoDominio.ATOR.getSingular(), id);
         }
-        throw new IdInvalidoException();
+        return ator.get();
+
+        //Mesma lógica do trecho acima com o código simplificado
+//        return repository.findById(id)
+//                .orElseThrow(() -> new RegistroNaoEncontradoException(TipoDominio.ATOR.getSingular(), id));
+
     }
 
 
+    public Ator removerAtor(Integer id) throws Exception {
+        Ator ator = this.consultarAtor(id);
+        repository.deleteById(id);
+        return ator;
+
+    }
+
+
+    public void atualizarAtor(AtorRequest atorRequest) throws Exception {
+        Ator ator = this.consultarAtor(atorRequest.getId());
+        if (ator.getId().equals(ator.getId())) {
+            ator.setNome(atorRequest.getNome());
+            ator.setDataNascimento(atorRequest.getDataNascimento());
+            ator.setStatusCarreira(atorRequest.getStatusCarreira());
+            ator.setAnoInicioAtividade(atorRequest.getAnoInicioAtividade());
+        }
+        repository.save(ator);
+
+
+    }
 }

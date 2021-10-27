@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -26,23 +27,38 @@ public class AtorController {
         this.atorService.criarAtor(atorRequest);
     }
 
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void atualizarAtor(@RequestBody @Valid AtorRequest atorRequest) throws Exception{
+        this.atorService.atualizarAtor(atorRequest);
+
+    }
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Ator> listaTodosOsAtores() throws Exception {
-        return this.atorService.consultaAtores();
+        return this.atorService.consultarAtores();
     }
 
-    @GetMapping("/{em_atividade}")
+    @GetMapping("/em-atividade")
     @ResponseStatus(HttpStatus.OK)
     public List<Ator> listaAtoresEmatividade() throws Exception {
         return this.atorService.listarAtoresEmAtividade();
+
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Ator consultaAtor(@PathVariable Integer id) throws Exception {
-        return this.atorService.consultaAtor(id);
+    public Ator consultaAtor(@PathVariable @Valid Integer id) throws Exception {
+        return this.atorService.consultarAtor(id);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Ator removerAtor(@PathVariable @Valid Integer id) throws Exception {
+        return this.atorService.removerAtor(id);
+    }
+
 
 
 }
