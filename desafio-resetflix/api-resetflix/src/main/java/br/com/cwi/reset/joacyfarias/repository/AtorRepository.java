@@ -11,7 +11,6 @@ import java.util.Optional;
 @Repository
 public interface AtorRepository extends CrudRepository<Ator, Integer> {
 
-//    Ator finByNomeequalsIgnoreCase(String nome);
     List<Ator> findAll();
     List<Ator> findByStatusCarreira(String statusCarreira);
     Ator findByIdEquals(Integer id);
