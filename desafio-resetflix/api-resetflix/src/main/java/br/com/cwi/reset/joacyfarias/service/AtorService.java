@@ -4,6 +4,7 @@ import br.com.cwi.reset.joacyfarias.domain.Ator;
 import br.com.cwi.reset.joacyfarias.enumeration.StatusCarreira;
 import br.com.cwi.reset.joacyfarias.enumeration.TipoDominio;
 import br.com.cwi.reset.joacyfarias.exceptions.*;
+import br.com.cwi.reset.joacyfarias.integration.AvatarService;
 import br.com.cwi.reset.joacyfarias.repository.AtorRepository;
 import br.com.cwi.reset.joacyfarias.service.dto.request.AtorRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AtorService {
@@ -19,16 +19,21 @@ public class AtorService {
     @Autowired
     private AtorRepository repository;
 
+    @Autowired
+    AvatarService avatarService;
+
 
     public Ator criarAtor(AtorRequest atorRequest) throws Exception {
         validaAtor(atorRequest);
-        Ator ator = new Ator();
-        ator.setNome(atorRequest.getNome());
-        ator.setDataNascimento(atorRequest.getDataNascimento());
-        ator.setStatusCarreira(atorRequest.getStatusCarreira());
-        ator.setAnoInicioAtividade(atorRequest.getAnoInicioAtividade());
-        return repository.save(ator);
 
+        Ator ator = Ator.builder()
+                .nome(atorRequest.getNome())
+                .dataNascimento(atorRequest.getDataNascimento())
+                .statusCarreira(atorRequest.getStatusCarreira())
+                .anoInicioAtividade(atorRequest.getAnoInicioAtividade())
+                .avatarUrl(avatarService.buscarAvatarAtor().getLink()).build();
+
+        return repository.save(ator);
     }
 
 
@@ -72,40 +77,35 @@ public class AtorService {
         return repository.findAll();
     }
 
+
+      /* Implementantdo métodos mais simples */
     public Ator consultarAtor(Integer id) throws Exception {
-        // Caso o optional tenha valor o mesmo é retornado, caso contrário é lançado a exceção
 
-        Optional<Ator> ator = repository.findById(id);
-        if (!ator.isPresent()) {
-            throw new RegistroNaoEncontradoException(TipoDominio.ATOR.getSingular(), id);
-        }
-        return ator.get();
-
-        //Mesma lógica do trecho acima com o código simplificado
-//        return repository.findById(id)
-//                .orElseThrow(() -> new RegistroNaoEncontradoException(TipoDominio.ATOR.getSingular(), id));
+        return repository.findById(id).orElseThrow(() ->
+                new RegistroNaoEncontradoException(TipoDominio.ATOR.getSingular(), id));
 
     }
 
 
-    public Ator removerAtor(Integer id) throws Exception {
-        Ator ator = this.consultarAtor(id);
+    public Ator removerAtor(Integer id){
+        Ator ator = repository.findById(id).orElseThrow(() ->
+                new RegistroNaoEncontradoException(TipoDominio.ATOR.getSingular(), id));
         repository.deleteById(id);
         return ator;
 
     }
 
 
-    public void atualizarAtor(AtorRequest atorRequest) throws Exception {
-        Ator ator = this.consultarAtor(atorRequest.getId());
-        if (ator.getId().equals(ator.getId())) {
-            ator.setNome(atorRequest.getNome());
-            ator.setDataNascimento(atorRequest.getDataNascimento());
-            ator.setStatusCarreira(atorRequest.getStatusCarreira());
-            ator.setAnoInicioAtividade(atorRequest.getAnoInicioAtividade());
-        }
-        repository.save(ator);
+    public void atualizarAtor(Integer id, AtorRequest atorRequest) throws Exception {
 
+        Ator ator = repository.findById(id).orElseThrow(() ->
+                new RegistroNaoEncontradoException(TipoDominio.ATOR.getSingular(), id));
+        ator.setNome(atorRequest.getNome());
+        ator.setDataNascimento(atorRequest.getDataNascimento());
+        ator.setStatusCarreira(atorRequest.getStatusCarreira());
+        ator.setAnoInicioAtividade(atorRequest.getAnoInicioAtividade());
+
+        repository.save(ator);
 
     }
 }

@@ -29,8 +29,8 @@ public class AtorController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void atualizarAtor(@RequestBody @Valid AtorRequest atorRequest) throws Exception{
-        this.atorService.atualizarAtor(atorRequest);
+    public void atualizarAtor(@PathVariable @RequestBody @Valid Integer id,  AtorRequest atorRequest) throws Exception{
+        this.atorService.atualizarAtor(id, atorRequest);
 
     }
 
