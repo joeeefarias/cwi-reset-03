@@ -8,6 +8,8 @@ import br.com.cwi.reset.joacyfarias.integration.AvatarService;
 import br.com.cwi.reset.joacyfarias.repository.AtorRepository;
 import br.com.cwi.reset.joacyfarias.service.dto.request.AtorRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -56,7 +58,8 @@ public class AtorService {
 
     }
 
-    public List<Ator> listarAtoresEmAtividade() throws Exception {
+    public List<Ator> listarAtoresEmAtividade(){
+
         List<Ator> atoresEmAtividade = new ArrayList<>();
         for (Ator ator : repository.findAll()) {
             if (ator.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE)) {
@@ -70,16 +73,18 @@ public class AtorService {
         return atoresEmAtividade;
     }
 
-    public List<Ator> consultarAtores() throws Exception {
-        if (repository.findAll().isEmpty()) {
+    public Page<Ator> consultarAtores(Pageable pageable){
+        Page atores = repository.findAll(pageable);
+        if (atores.getTotalElements() == 0){
             throw new ListaVaziaException(TipoDominio.ATOR.getSingular(), TipoDominio.ATOR.getPlural());
         }
-        return repository.findAll();
+
+        return atores;
     }
 
 
       /* Implementantdo métodos mais simples */
-    public Ator consultarAtor(Integer id) throws Exception {
+    public Ator consultarAtor(Integer id){
 
         return repository.findById(id).orElseThrow(() ->
                 new RegistroNaoEncontradoException(TipoDominio.ATOR.getSingular(), id));
