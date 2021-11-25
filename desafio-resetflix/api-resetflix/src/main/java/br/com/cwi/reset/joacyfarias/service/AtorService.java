@@ -12,9 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 public class AtorService {
 
@@ -25,7 +22,7 @@ public class AtorService {
     AvatarService avatarService;
 
 
-    public Ator criarAtor(AtorRequest atorRequest) throws Exception {
+    public Ator criarAtor(AtorRequest atorRequest){
         validaAtor(atorRequest);
 
         Ator ator = Ator.builder()
@@ -39,7 +36,7 @@ public class AtorService {
     }
 
 
-    private void validaAtor(AtorRequest atorRequest) throws Exception {
+    private void validaAtor(AtorRequest atorRequest){
 
         if (atorRequest.getNome().split(" ").length < 2) {
             throw new NomeESobreNomeException(TipoDominio.ATOR.getSingular());
@@ -58,24 +55,20 @@ public class AtorService {
 
     }
 
-    public List<Ator> listarAtoresEmAtividade(){
+    public Page<Ator> listarAtoresEmAtividade(String nome, Pageable pageable) {
 
-        List<Ator> atoresEmAtividade = new ArrayList<>();
-        for (Ator ator : repository.findAll()) {
-            if (ator.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE)) {
-                atoresEmAtividade.add(ator);
-
-            }
-            if (atoresEmAtividade.isEmpty()) {
-                throw new FiltroInvalidoException();
-            }
+        if (nome != null && !nome.isEmpty()) {
+            return repository.findAllByStatusCarreiraAndNomeContainingIgnoreCase(
+                    StatusCarreira.EM_ATIVIDADE, nome, pageable);
+        } else {
+            return repository.findAllByStatusCarreira(StatusCarreira.EM_ATIVIDADE, pageable);
         }
-        return atoresEmAtividade;
+
     }
 
-    public Page<Ator> consultarAtores(Pageable pageable){
-        Page atores = repository.findAll(pageable);
-        if (atores.getTotalElements() == 0){
+    public Page<Ator> consultarAtores(Pageable pageable) {
+        Page<Ator> atores = repository.findAll(pageable);
+        if (atores.getTotalElements() == 0) {
             throw new ListaVaziaException(TipoDominio.ATOR.getSingular(), TipoDominio.ATOR.getPlural());
         }
 
@@ -83,8 +76,8 @@ public class AtorService {
     }
 
 
-      /* Implementantdo métodos mais simples */
-    public Ator consultarAtor(Integer id){
+    /* Implementantdo métodos mais simples */
+    public Ator consultarAtor(Integer id) {
 
         return repository.findById(id).orElseThrow(() ->
                 new RegistroNaoEncontradoException(TipoDominio.ATOR.getSingular(), id));
@@ -92,7 +85,7 @@ public class AtorService {
     }
 
 
-    public Ator removerAtor(Integer id){
+    public Ator removerAtor(Integer id) {
         Ator ator = repository.findById(id).orElseThrow(() ->
                 new RegistroNaoEncontradoException(TipoDominio.ATOR.getSingular(), id));
         repository.deleteById(id);
@@ -101,7 +94,7 @@ public class AtorService {
     }
 
 
-    public void atualizarAtor(Integer id, AtorRequest atorRequest) throws Exception {
+    public void atualizarAtor(Integer id, AtorRequest atorRequest) {
 
         Ator ator = repository.findById(id).orElseThrow(() ->
                 new RegistroNaoEncontradoException(TipoDominio.ATOR.getSingular(), id));

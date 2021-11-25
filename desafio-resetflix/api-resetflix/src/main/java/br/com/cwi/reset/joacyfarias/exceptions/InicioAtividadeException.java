@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class InicioAtividadeException extends Exception{
+public class InicioAtividadeException extends RuntimeException{
     public InicioAtividadeException(LocalDate message) {
         super(String.format("Ano de inicio inválido para o %s cadastrado", message));
     }
