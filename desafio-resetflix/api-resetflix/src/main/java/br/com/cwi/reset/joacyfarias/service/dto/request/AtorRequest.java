@@ -22,32 +22,4 @@ public class AtorRequest {
     @NotNull(message = "Campo obrigatório não informado. Favor informar o campo ano de inicio de atividade")
     private LocalDate anoInicioAtividade;
 
-//    public AtorRequest(Integer id, String nome, LocalDate dataNascimento, StatusCarreira statusCarreira,
-//                       LocalDate anoInicioAtividade) {
-//        this.id = id;
-//        this.nome = nome;
-//        this.dataNascimento = dataNascimento;
-//        this.statusCarreira = statusCarreira;
-//        this.anoInicioAtividade = anoInicioAtividade;
-//    }
-//
-//    public String getNome() {
-//        return nome;
-//    }
-//
-//    public LocalDate getDataNascimento() {
-//        return dataNascimento;
-//    }
-//
-//    public StatusCarreira getStatusCarreira() {
-//        return statusCarreira;
-//    }
-//
-//    public LocalDate getAnoInicioAtividade() {
-//        return anoInicioAtividade;
-//    }
-//
-//    public Integer getId() {
-//        return id;
-//    }
 }
