@@ -47,12 +47,14 @@ public class DiretorService {
     }
 
     public Page<Diretor> listarDiretores(String nome, Pageable pageable) {
-
+        Page<Diretor> diretores = repository.findAll(pageable);
+        if (diretores.getTotalElements() == 0) {
+            throw new ListaVaziaException(TipoDominio.DIRETOR.getSingular(), TipoDominio.DIRETOR.getPlural());
+        }
         if (nome != null && !nome.isEmpty()) {
             return repository.findAllByNomeEqualsIgnoreCase(nome, pageable);
         } else {
             return repository.findAll(pageable);
-
         }
     }
 

@@ -57,6 +57,11 @@ public class AtorService {
 
     public Page<Ator> listarAtoresEmAtividade(String nome, Pageable pageable) {
 
+        Page<Ator> atores = repository.findAll(pageable);
+        if (atores.getTotalElements() == 0) {
+            throw new ListaVaziaException(TipoDominio.ATOR.getSingular(), TipoDominio.ATOR.getPlural());
+        }
+
         if (nome != null && !nome.isEmpty()) {
             return repository.findAllByStatusCarreiraAndNomeContainingIgnoreCase(
                     StatusCarreira.EM_ATIVIDADE, nome, pageable);

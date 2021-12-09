@@ -37,4 +37,10 @@ public class DiretorController {
         return diretorService.cadastrarDiretor(diretorRequest);
     }
 
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Diretor consultaDiretor(@PathVariable Integer id){
+        return diretorService.consultarDiretor(id);
+    }
+
 }

@@ -1,7 +1,6 @@
 package br.com.cwi.reset.joacyfarias.controller;
 
 import br.com.cwi.reset.joacyfarias.domain.Ator;
-import br.com.cwi.reset.joacyfarias.enumeration.StatusCarreira;
 import br.com.cwi.reset.joacyfarias.service.AtorService;
 import br.com.cwi.reset.joacyfarias.service.dto.request.AtorRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
 
 
 @RestController

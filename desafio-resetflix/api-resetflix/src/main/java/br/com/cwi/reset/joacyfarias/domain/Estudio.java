@@ -1,12 +1,19 @@
 package br.com.cwi.reset.joacyfarias.domain;
 
 import br.com.cwi.reset.joacyfarias.enumeration.StatusAtividade;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Objects;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Estudio {
 
     @Id
@@ -18,66 +25,4 @@ public class Estudio {
     @Enumerated(EnumType.STRING)
     private StatusAtividade statusAtividade;
 
-    public Estudio(){
-
-    }
-
-    public Estudio(String nome, String descricao, LocalDate dataCriacao, StatusAtividade statusAtividade) {
-        this.nome = nome;
-        this.descricao = descricao;
-        this.statusAtividade = statusAtividade;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public LocalDate getDataCriacao() {
-        return dataCriacao;
-    }
-
-    public void setDataCriacao(LocalDate dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
-
-    public StatusAtividade getStatusAtividade() {
-        return statusAtividade;
-    }
-
-    public void setStatusAtividade(StatusAtividade statusAtividade) {
-        this.statusAtividade = statusAtividade;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Estudio estudio = (Estudio) o;
-        return Objects.equals(id, estudio.id) && Objects.equals(nome, estudio.nome) && Objects.equals(descricao, estudio.descricao) && Objects.equals(dataCriacao, estudio.dataCriacao) && statusAtividade == estudio.statusAtividade;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, nome, descricao, dataCriacao, statusAtividade);
-    }
 }
