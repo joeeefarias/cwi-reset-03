@@ -46,7 +46,7 @@ public class EstudioService {
         }
 
         if (nome != null && !nome.isEmpty()) {
-            return repository.findAllByNomeEqualsIgnoreCase(nome, pageable);
+            return repository.findAllByNomeContainsIgnoreCase(nome, pageable);
         } else {
             return estudios;
         }

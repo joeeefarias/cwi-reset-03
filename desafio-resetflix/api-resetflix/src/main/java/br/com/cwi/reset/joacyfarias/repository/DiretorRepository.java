@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DiretorRepository extends JpaRepository<Diretor, Integer> {
 
-    Page<Diretor> findAllByNomeEqualsIgnoreCase(String nome, Pageable pageable);
+    Page<Diretor> findAllByNomeContainsIgnoreCase(String nome, Pageable pageable);
 
 
 }

@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EstudioRepository extends JpaRepository<Estudio, Integer> {
 
-    Page<Estudio> findAllByNomeEqualsIgnoreCase(String nome, Pageable pageable);
+    Page<Estudio> findAllByNomeContainsIgnoreCase(String nome, Pageable pageable);
 
 }

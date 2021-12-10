@@ -4,6 +4,7 @@ import br.com.cwi.reset.joacyfarias.domain.Diretor;
 import br.com.cwi.reset.joacyfarias.domain.Estudio;
 import br.com.cwi.reset.joacyfarias.domain.PersonagemAtor;
 import br.com.cwi.reset.joacyfarias.enumeration.Genero;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,8 +16,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FilmeRequest {
-
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer id;
+
     private String nome;
     private LocalDate anoLancamento;
     private String capaFilme;

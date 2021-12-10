@@ -52,7 +52,7 @@ public class DiretorService {
             throw new ListaVaziaException(TipoDominio.DIRETOR.getSingular(), TipoDominio.DIRETOR.getPlural());
         }
         if (nome != null && !nome.isEmpty()) {
-            return repository.findAllByNomeEqualsIgnoreCase(nome, pageable);
+            return repository.findAllByNomeContainsIgnoreCase(nome, pageable);
         } else {
             return repository.findAll(pageable);
         }
