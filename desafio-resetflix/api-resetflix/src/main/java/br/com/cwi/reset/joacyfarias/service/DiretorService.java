@@ -51,6 +51,12 @@ public class DiretorService {
         if (diretores.getTotalElements() == 0) {
             throw new ListaVaziaException(TipoDominio.DIRETOR.getSingular(), TipoDominio.DIRETOR.getPlural());
         }
+
+        Page<Diretor> diretoresFiltrados = repository.findAllByNomeContainsIgnoreCase(nome, pageable);
+        if (diretoresFiltrados.getTotalElements() == 0 ){
+            throw new FiltroNomeNaoEncontrado(TipoDominio.DIRETOR.getSingular(), nome);
+        }
+
         if (nome != null && !nome.isEmpty()) {
             return repository.findAllByNomeContainsIgnoreCase(nome, pageable);
         } else {

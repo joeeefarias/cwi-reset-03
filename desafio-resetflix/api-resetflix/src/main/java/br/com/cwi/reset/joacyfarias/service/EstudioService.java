@@ -2,6 +2,7 @@ package br.com.cwi.reset.joacyfarias.service;
 
 import br.com.cwi.reset.joacyfarias.domain.Estudio;
 import br.com.cwi.reset.joacyfarias.enumeration.TipoDominio;
+import br.com.cwi.reset.joacyfarias.exceptions.FiltroNomeNaoEncontrado;
 import br.com.cwi.reset.joacyfarias.exceptions.ListaVaziaException;
 import br.com.cwi.reset.joacyfarias.exceptions.NomeDuplicadoException;
 import br.com.cwi.reset.joacyfarias.exceptions.RegistroNaoEncontradoException;
@@ -43,6 +44,11 @@ public class EstudioService {
         Page<Estudio> estudios = repository.findAll(pageable);
         if (estudios.getTotalElements() == 0) {
             throw new ListaVaziaException(TipoDominio.ESTUDIO.getSingular(), TipoDominio.ESTUDIO.getPlural());
+        }
+
+        Page<Estudio> estudiosFiltrados = repository.findAllByNomeContainsIgnoreCase(nome, pageable);
+        if(estudiosFiltrados.getTotalElements() == 0 ){
+            throw new FiltroNomeNaoEncontrado(TipoDominio.ESTUDIO.getSingular(), nome);
         }
 
         if (nome != null && !nome.isEmpty()) {

@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import static java.util.Optional.ofNullable;
+
 @Service
 public class AtorService {
 
@@ -60,6 +62,12 @@ public class AtorService {
         Page<Ator> atores = repository.findAll(pageable);
         if (atores.getTotalElements() == 0) {
             throw new ListaVaziaException(TipoDominio.ATOR.getSingular(), TipoDominio.ATOR.getPlural());
+        }
+
+        Page<Ator> atoresFiltrados = repository.findAllByStatusCarreiraAndNomeContainingIgnoreCase(StatusCarreira.EM_ATIVIDADE,
+                nome, pageable);
+        if (atoresFiltrados.getTotalElements() == 0 ){
+            throw new FiltroNomeNaoEncontrado(TipoDominio.ATOR.getSingular(), nome);
         }
 
         if (nome != null && !nome.isEmpty()) {

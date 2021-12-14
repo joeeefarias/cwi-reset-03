@@ -16,9 +16,9 @@ public class FilmeController {
     @Autowired
     private FilmeService filmeService;
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Filme criarfilme(@RequestBody @Valid FilmeRequest filmeRequest){
-        return filmeService.criarFilme();
-    }
+//    @PostMapping
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public Filme criarfilme(@RequestBody @Valid FilmeRequest filmeRequest){
+//        return filmeService.criarFilme();
+//    }
 }
